@@ -1,13 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Main from './Main';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Scatter from "./Scatter";
+import Pie from "./Pie";
+import Bar from "./Bar";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="scatter" element={<Scatter />} />
+              <Route path="bar" element={<Bar />} />
+              <Route path="pie" element={<Pie />} />
+          </Routes>
+      </BrowserRouter>
   </React.StrictMode>
 );
 
