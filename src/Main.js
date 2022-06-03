@@ -4,7 +4,6 @@ import {useState} from "react";
 import Scatter from "./Scatter";
 import Pie from "./Pie";
 import Bar from "./Bar";
-import Script from "./Script";
 
 function TabPanel(props) {
     const { children, value, index } = props;
@@ -34,7 +33,6 @@ function Main() {
                     <Tab label="Scatter" />
                     <Tab label="Bar" />
                     <Tab label="Pie" />
-                    <Tab label="Script" />
                 </Tabs>
             </Box>
         </Box>
@@ -47,9 +45,15 @@ function Main() {
         <TabPanel value={value} index={2}>
             <Bar/>
         </TabPanel>
-        <TabPanel value={value} index={3}>
-            <Script/>
-        </TabPanel>
+        {/*<nav>*/}
+        {/*    <Link to="/scatter">Scatter</Link>*/}
+        {/*</nav>*/}
+        {/*<nav>*/}
+        {/*    <Link to="/bar">Bar</Link>*/}
+        {/*</nav>*/}
+        {/*<nav>*/}
+        {/*    <Link to="/pie">Pie</Link>*/}
+        {/*</nav>*/}
     </div>
   );
 }
