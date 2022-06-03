@@ -1,8 +1,8 @@
 
 function Scatter() {
     return (
-        <div className="App">
-            scatter
+        <div>
+            <p>scatter</p>
         </div>
     );
 }

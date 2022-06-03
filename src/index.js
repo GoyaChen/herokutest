@@ -7,19 +7,24 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Scatter from "./Scatter";
 import Pie from "./Pie";
 import Bar from "./Bar";
+import { QueryClient, QueryClientProvider} from 'react-query'
 
 
+const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-      <BrowserRouter>
-          <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="scatter" element={<Scatter />} />
-              <Route path="bar" element={<Bar />} />
-              <Route path="pie" element={<Pie />} />
-          </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={<Main />} />
+                  <Route path="scatter" element={<Scatter />} />
+                  <Route path="bar" element={<Bar />} />
+                  <Route path="pie" element={<Pie />} />
+              </Routes>
+          </BrowserRouter>
+      </QueryClientProvider>
   </React.StrictMode>
 );
 

@@ -1,7 +1,7 @@
 function Pie() {
     return (
-        <div className="App">
-            Pie
+        <div>
+            <p>Pie</p>
         </div>
     );
 }
