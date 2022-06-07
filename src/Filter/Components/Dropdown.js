@@ -12,10 +12,10 @@ import {autocomplete_text_fields, obj_autocomplete_text_fields} from './vars'
 
 
 
-const header={ "Authorization": 'Token bd233c83dceb9a0f70ffd2b47d6cd3a18a095260',
-}
-const base_url = "https://voyages3-api.crc.rice.edu/"
-const mapbox_access_token='pk.eyJ1IjoiamNtMTAiLCJhIjoiY2wyOTcyNjJsMGY5dTNwbjdscnljcGd0byJ9.kZvEfo7ywl2yLbztc_SSjw'
+// const header={ "Authorization": 'Token bd233c83dceb9a0f70ffd2b47d6cd3a18a095260',
+// }
+// const base_url = "https://voyages3-api.crc.rice.edu/"
+// const mapbox_access_token='pk.eyJ1IjoiamNtMTAiLCJhIjoiY2wyOTcyNjJsMGY5dTNwbjdscnljcGd0byJ9.kZvEfo7ywl2yLbztc_SSjw'
 
 
 
@@ -69,11 +69,6 @@ export default function Dropdown(props) {
       console.log("handle change", event.target.value)
       props.setName(event.target.value)
   };
-
-
-
-
-
 
   return (
     <>
