@@ -41,28 +41,28 @@ export default function Dropdown(props) {
 
 
 
-    React.useEffect(()=>{
-      const fetchData = async (name,textInput) => {
-        var formdata = new FormData();
-        formdata.append(name, textInput);
-        console.log("🚀 ~ name, textInput", name, textInput)
-        var requestOptions = {
-            method: 'POST',
-            headers: header,
-            body: formdata,
-            redirect: 'follow'
-        };
-        fetch("https://voyages3-api.crc.rice.edu/voyage/autocomplete", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            console.log("🚀YAYAYAY fetch is successful!!! result", result)
-            var newOptions = result[name]
-            console.log("🚀 ~ file: Dropdown.js ~ line 43 ~ fetchData ~ newOptions", newOptions)
-            props.setDropdownOptions(newOptions) })
-      }
-
-      fetchData(props.name,props.textInput).catch(console.error)
-    },[props.name,props.textInput])
+    // React.useEffect(()=>{
+    //   const fetchData = async (name,textInput) => {
+    //     var formdata = new FormData();
+    //     formdata.append(name, textInput);
+    //     console.log("🚀 ~ name, textInput", name, textInput)
+    //     var requestOptions = {
+    //         method: 'POST',
+    //         headers: header,
+    //         body: formdata,
+    //         redirect: 'follow'
+    //     };
+    //     fetch("https://voyages3-api.crc.rice.edu/voyage/autocomplete", requestOptions)
+    //     .then(response => response.json())
+    //     .then(result => {
+    //         console.log("🚀YAYAYAY fetch is successful!!! result", result)
+    //         var newOptions = result[name]
+    //         console.log("🚀 ~ file: Dropdown.js ~ line 43 ~ fetchData ~ newOptions", newOptions)
+    //         props.setDropdownOptions(newOptions) })
+    //   }
+    //
+    //   fetchData(props.name,props.textInput).catch(console.error)
+    // },[props.name,props.textInput])
 
 
   const handleChange = (event) => {

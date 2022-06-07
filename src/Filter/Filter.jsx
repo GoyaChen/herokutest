@@ -5,7 +5,8 @@ import Dropdown from './Components/Dropdown';
 // import '@fontsource/roboto/400.css';
 // import '@fontsource/roboto/500.css';
 // import '@fontsource/roboto/700.css';
-
+const header={ "Authorization": 'Token bd233c83dceb9a0f70ffd2b47d6cd3a18a095260',
+}
 export const AppContext = React.createContext();
 
 function Filter(props) {
@@ -91,6 +92,29 @@ function Filter(props) {
        }
        React.useEffect(()=> {
         optionCall()}, []);
+
+    React.useEffect(()=>{
+        const fetchData = async (name,textInput) => {
+            var formdata = new FormData();
+            formdata.append(name, textInput);
+            console.log("🚀 ~ name, textInput", name, textInput)
+            var requestOptions = {
+                method: 'POST',
+                headers: header,
+                body: formdata,
+                redirect: 'follow'
+            };
+            fetch("https://voyages3-api.crc.rice.edu/voyage/autocomplete", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log("🚀YAYAYAY fetch is successful!!! result", result)
+                    var newOptions = result[name]
+                    console.log("🚀 ~ file: Dropdown.js ~ line 43 ~ fetchData ~ newOptions", newOptions)
+                    setDropdownOptions(newOptions) })
+        }
+
+        fetchData(name,textInput).catch(console.error)
+    },[name,textInput])
      
       //**************************************** */
 
