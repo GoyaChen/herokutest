@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Main from './Main';
+import Main from './viz/Main';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Scatter from "./Scatter";
-import Pie from "./Pie";
-import Bar from "./Bar";
+import Scatter from "./viz/Scatter";
+import Pie from "./viz/Pie";
+import Bar from "./viz/Bar";
 import { QueryClient, QueryClientProvider} from 'react-query'
+import Script from "./Script";
+import App from "./Wraper/App";
 
 
 const queryClient = new QueryClient()
@@ -19,10 +21,12 @@ root.render(
           {/*<Scatter />*/}
           <BrowserRouter>
               <Routes>
-                  <Route path="/" element={<Main />} />
-                  <Route path="scatter" element={<Scatter />} />
-                  <Route path="bar" element={<Bar />} />
-                  <Route path="pie" element={<Pie />} />
+                  <Route path="/" element={<App />}/>
+                  {/*<Route path="script" element={<Script/>}/>*/}
+                  {/*<Route path="/" element={<Main />} />*/}
+                  {/*<Route path="scatter" element={<Scatter />} />*/}
+                  {/*<Route path="bar" element={<Bar />} />*/}
+                  {/*<Route path="pie" element={<Pie />} />*/}
               </Routes>
           </BrowserRouter>
       </QueryClientProvider>

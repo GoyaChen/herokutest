@@ -1,7 +1,7 @@
 import React, { Component, PureComponent, useState, useEffect } from 'react'
 // import { Form, Input, InputNumber, Radio, Modal, Cascader ,Tree} from 'antd'
 import axios from 'axios'
-import Plot from 'react-plotly.js';
+import Plot from '../../node_modules/react-plotly.js/react-plotly';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -19,32 +19,9 @@ const AUTH_TOKEN = process.env.REACT_APP_AUTHTOKEN;
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
-var bar_x_vars=[
-    'voyage_ship__imputed_nationality__name',
-    'voyage_ship__rig_of_vessel__name',
-    'voyage_outcome__particular_outcome__name',
-    'voyage_outcome__outcome_slaves__name',
-    'voyage_outcome__outcome_owner__name',
-    'voyage_outcome__vessel_captured_outcome__name',
-    'voyage_outcome__resistance__name',
-    'voyage_itinerary__imp_port_voyage_begin__geo_location__name',
-    'voyage_itinerary__imp_region_voyage_begin__geo_location__name',
-    'voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name',
-    'voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name',
-    'voyage_itinerary__imp_principal_port_slave_dis__geo_location__name',
-    'voyage_itinerary__imp_principal_region_slave_dis__geo_location__name',
-    'voyage_itinerary__imp_broad_region_slave_dis__geo_location__name',
-    'voyage_itinerary__place_voyage_ended__geo_location__name',
-    'voyage_itinerary__region_of_return__geo_location__name',
-    'voyage_dates__imp_arrival_at_port_of_dis_yyyy',
-    'voyage_dates__voyage_began_mm',
-    'voyage_dates__slave_purchase_began_mm',
-    'voyage_dates__date_departed_africa_mm',
-    'voyage_dates__first_dis_of_slaves_mm',
-    'voyage_dates__voyage_completed_mm'
-]
+console.log(process.env.REACT_APP_BASEURL)
 
-var bar_y_vars=[
+var donut_value_vars=[
     'voyage_dates__imp_length_home_to_disembark',
     'voyage_dates__length_middle_passage_days',
     'voyage_ship__tonnage_mod',
@@ -55,7 +32,26 @@ var bar_y_vars=[
     'voyage_slaves_numbers__imp_jamaican_cash_price'
 ]
 
-function Bar () {
+var donut_name_vars=[
+    'voyage_ship__imputed_nationality__name',
+    'voyage_ship__rig_of_vessel__name',
+    'voyage_outcome__particular_outcome__name',
+    'voyage_outcome__outcome_slaves__name',
+    'voyage_outcome__outcome_owner__name',
+    'voyage_outcome__vessel_captured_outcome__name',
+    'voyage_outcome__resistance__name',
+    'voyage_itinerary__imp_port_voyage_begin__place',
+    'voyage_itinerary__imp_region_voyage_begin__region',
+    'voyage_itinerary__imp_principal_place_of_slave_purchase__place',
+    'voyage_itinerary__imp_principal_region_of_slave_purchase__region',
+    'voyage_itinerary__imp_principal_port_slave_dis__place',
+    'voyage_itinerary__imp_principal_region_slave_dis__region',
+    'voyage_itinerary__imp_broad_region_slave_dis__broad_region',
+    'voyage_itinerary__place_voyage_ended__place',
+    'voyage_itinerary__region_of_return__region'
+]
+
+function Pie () {
 
     const [plot_field, setarrx] = useState([])
     const [plot_value, setarry] = useState([])
@@ -64,8 +60,8 @@ function Bar () {
     // const [option_value, setValue] = React.useState(scatter_plot_y_vars[1]);
 
     const [option, setOption] = useState({
-        field: bar_x_vars[0],
-        value: bar_y_vars[1]
+        field: donut_name_vars[0],
+        value: donut_value_vars[1]
     })
 
     const [aggregation, setAgg] = React.useState('sum');
@@ -125,7 +121,7 @@ function Bar () {
                             onChange={(event) => {handleChange(event, "field")}}
                             name="field"
                         >
-                            {bar_x_vars.map((option) => (
+                            {donut_name_vars.map((option) => (
                                 <MenuItem value={option}>
                                     {option}
                                 </MenuItem>
@@ -144,7 +140,7 @@ function Bar () {
                             name="value"
                             onChange={(event) => {handleChange(event, "value")}}
                         >
-                            {bar_y_vars.map((option) => (
+                            {donut_value_vars.map((option) => (
                                 <MenuItem value={option}>
                                     {option}
                                 </MenuItem>
@@ -174,14 +170,13 @@ function Bar () {
                 <Plot
                     data={[
                         {
-                            x: plot_field,
-                            y: plot_value,
-                            type: 'bar',
+                            labels: plot_field,
+                            values: plot_value,
+                            type: 'pie',
                             mode: 'lines+markers',
-                        },
-                        {type: 'bar'},
+                        }
                     ]}
-                    layout={ {width: 1000, height: 500, title: 'bar Plot'} }
+                    layout={ {width: 1000, height: 500, title: 'Pie Plot'} }
                 />
             </div>
         </div>
@@ -191,4 +186,4 @@ function Bar () {
 }
 
 
-export default Bar;
+export default Pie;

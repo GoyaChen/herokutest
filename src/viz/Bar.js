@@ -1,7 +1,7 @@
 import React, { Component, PureComponent, useState, useEffect } from 'react'
 // import { Form, Input, InputNumber, Radio, Modal, Cascader ,Tree} from 'antd'
 import axios from 'axios'
-import Plot from 'react-plotly.js';
+import Plot from '../../node_modules/react-plotly.js/react-plotly';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,55 +13,64 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 
 
-const option_url = '/voyage/' + '?hierarchical=false' // labels in dropdowns
+const option_url = '/voyage/' + '?hierarchical=false'
 
 const AUTH_TOKEN = process.env.REACT_APP_AUTHTOKEN;
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
-var scatter_plot_x_vars=[
+var bar_x_vars=[
+    'voyage_ship__imputed_nationality__name',
+    'voyage_ship__rig_of_vessel__name',
+    'voyage_outcome__particular_outcome__name',
+    'voyage_outcome__outcome_slaves__name',
+    'voyage_outcome__outcome_owner__name',
+    'voyage_outcome__vessel_captured_outcome__name',
+    'voyage_outcome__resistance__name',
+    'voyage_itinerary__imp_port_voyage_begin__geo_location__name',
+    'voyage_itinerary__imp_region_voyage_begin__geo_location__name',
+    'voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name',
+    'voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name',
+    'voyage_itinerary__imp_principal_port_slave_dis__geo_location__name',
+    'voyage_itinerary__imp_principal_region_slave_dis__geo_location__name',
+    'voyage_itinerary__imp_broad_region_slave_dis__geo_location__name',
+    'voyage_itinerary__place_voyage_ended__geo_location__name',
+    'voyage_itinerary__region_of_return__geo_location__name',
     'voyage_dates__imp_arrival_at_port_of_dis_yyyy',
+    'voyage_dates__voyage_began_mm',
+    'voyage_dates__slave_purchase_began_mm',
+    'voyage_dates__date_departed_africa_mm',
+    'voyage_dates__first_dis_of_slaves_mm',
+    'voyage_dates__voyage_completed_mm'
+]
+
+var bar_y_vars=[
     'voyage_dates__imp_length_home_to_disembark',
     'voyage_dates__length_middle_passage_days',
+    'voyage_ship__tonnage_mod',
     'voyage_crew__crew_voyage_outset',
     'voyage_crew__crew_first_landing',
     'voyage_slaves_numbers__imp_total_num_slaves_embarked',
-    'voyage_slaves_numbers__imp_total_num_slaves_disembarked'
-]
-
-var scatter_plot_y_vars=[
-    'voyage_slaves_numbers__imp_total_num_slaves_embarked',
     'voyage_slaves_numbers__imp_total_num_slaves_disembarked',
-    'voyage_slaves_numbers__percentage_female',
-    'voyage_slaves_numbers__percentage_male',
-    'voyage_slaves_numbers__percentage_child',
-    'voyage_slaves_numbers__percentage_men_among_embarked_slaves',
-    'voyage_slaves_numbers__percentage_women_among_embarked_slaves',
-    'voyage_slaves_numbers__imp_mortality_ratio',
-    'voyage_slaves_numbers__imp_jamaican_cash_price',
-    'voyage_slaves_numbers__percentage_boys_among_embarked_slaves',
-    'voyage_slaves_numbers__percentage_girls_among_embarked_slaves',
-    'voyage_ship__tonnage_mod',
-    'voyage_crew__crew_voyage_outset',
-    'voyage_crew__crew_first_landing'
+    'voyage_slaves_numbers__imp_jamaican_cash_price'
 ]
 
-function Scatter () {
+function Bar () {
 
     const [plot_field, setarrx] = useState([])
     const [plot_value, setarry] = useState([])
 
+    // const [option_field, setField] = React.useState(scatter_plot_x_vars[0]);
+    // const [option_value, setValue] = React.useState(scatter_plot_y_vars[1]);
+
     const [option, setOption] = useState({
-        field: scatter_plot_x_vars[0],
-        value: scatter_plot_y_vars[1]
+        field: bar_x_vars[0],
+        value: bar_y_vars[1]
     })
 
     const [aggregation, setAgg] = React.useState('sum');
+
     const {sum, average} = aggregation;
-    const [label, setLabel] = useState()
-
-    const [isLoading, setLoading] = useState(true);
-
 
     const handleChange_agg = (event) => {
         setAgg(event.target.value);
@@ -93,6 +102,8 @@ function Scatter () {
                 setarrx(Object.keys(response.data[value]))
                 setarry(Object.values(response.data[value]))
 
+                // console.log(plot_value)
+
             })
             .catch(function (error) {
                 console.log(error);
@@ -100,22 +111,6 @@ function Scatter () {
 
     }, [option.field, option.value, aggregation]);
 
-    useEffect(() => {
-            axios.options(option_url)
-                .then(function (response) {
-
-                    setLabel(response.data)
-                    setLoading(false)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-        }, []
-    );
-
-    if (isLoading) {
-        return <div className="spinner"></div>;
-    }
 
     return (
         <div>
@@ -130,9 +125,9 @@ function Scatter () {
                             onChange={(event) => {handleChange(event, "field")}}
                             name="field"
                         >
-                            {scatter_plot_x_vars.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {label[option]['flatlabel']}
+                            {bar_x_vars.map((option) => (
+                                <MenuItem value={option}>
+                                    {option}
                                 </MenuItem>
                             ))}
 
@@ -149,11 +144,12 @@ function Scatter () {
                             name="value"
                             onChange={(event) => {handleChange(event, "value")}}
                         >
-                            {scatter_plot_y_vars.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {label[option]['flatlabel']}
+                            {bar_y_vars.map((option) => (
+                                <MenuItem value={option}>
+                                    {option}
                                 </MenuItem>
                             ))}
+                            {/* <MenuItem value={scatter_plot_x_vars}>{scatter_plot_x_vars}</MenuItem> */}
 
                         </Select>
                     </FormControl>
@@ -180,13 +176,12 @@ function Scatter () {
                         {
                             x: plot_field,
                             y: plot_value,
-                            type: 'scatter',
+                            type: 'bar',
                             mode: 'lines+markers',
-                            marker: {color: 'red'},
                         },
                         {type: 'bar'},
                     ]}
-                    layout={ {width: 1000, height: 500, title: 'Scatter Plot'} }
+                    layout={ {width: 1000, height: 500, title: 'bar Plot'} }
                 />
             </div>
         </div>
@@ -196,4 +191,4 @@ function Scatter () {
 }
 
 
-export default Scatter;
+export default Bar;

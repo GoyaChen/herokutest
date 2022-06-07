@@ -20,7 +20,7 @@ import { useQuery } from 'react-query'
 import { NavLink, useNavigate } from 'react-router-dom';
 import {base_url, headers} from "./status";
 
-function Script() {
+function Script(props) {
     let navigate = useNavigate();
     const [first, setFirst] = useState(1);
     const [second, setSecond] = useState(2);
