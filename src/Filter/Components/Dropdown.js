@@ -30,14 +30,14 @@ export default function Dropdown(props) {
   // const [textInput, setTestInput] = React.useState("");
   // const [dropdownOptions, setDropdownOptions] = React.useState([]);
 
-  const { name,
-    setName,
-    textInput,
-    setTestInput,
-    dropdownOptions,
-    setDropdownOptions,      
-    value,
-    setValue,label,object} = React.useContext(AppContext)
+  // const { name,
+  //   setName,
+  //   textInput,
+  //   setTestInput,
+  //   dropdownOptions,
+  //   setDropdownOptions,
+  //   value,
+  //   setValue,label,object} = React.useContext(AppContext)
 
 
 
@@ -58,16 +58,16 @@ export default function Dropdown(props) {
             console.log("🚀YAYAYAY fetch is successful!!! result", result)
             var newOptions = result[name]
             console.log("🚀 ~ file: Dropdown.js ~ line 43 ~ fetchData ~ newOptions", newOptions)
-            setDropdownOptions(newOptions) })
+            props.setDropdownOptions(newOptions) })
       }
 
-      fetchData(name,textInput).catch(console.error)
-    },[name,textInput])
+      fetchData(props.name,props.textInput).catch(console.error)
+    },[props.name,props.textInput])
 
 
   const handleChange = (event) => {
       console.log("handle change", event.target.value)
-      setName(event.target.value)
+      props.setName(event.target.value)
   };
 
 
@@ -83,7 +83,7 @@ export default function Dropdown(props) {
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={name}
+        value={props.name}
         label="name"
         onChange={handleChange}
       >
@@ -107,7 +107,7 @@ export default function Dropdown(props) {
         {/* 3. 😄 using API filtered by static file  */}
 
         {
-          object.map((name)=>{
+            props.object.map((name)=>{
             if(autocomplete_text_fields.includes(name['name'])){
               return <MenuItem value={name['name']}>{name['flatlabel']}</MenuItem>}
             })
@@ -120,21 +120,21 @@ export default function Dropdown(props) {
       autoHighlight
       multiple
       id="combo-box-demo"
-      options={dropdownOptions}
-      value={dropdownOptions[0]}
+      options={props.dropdownOptions}
+      value={props.dropdownOptions[0]}
       onChange={(event, newValue) => {
-        setValue(oldArray => [newValue][0]);
-          console.log({[name]:newValue});
+          props.setValue(oldArray => [newValue][0]);
+          console.log({[props.name]:newValue});
           props.setData({
               ...props.data,
-              [name]:newValue,
+              [props.name]:newValue,
           })
       }}
       sx={{ width: 300 }}
       renderInput={(params) => {
         //params.inputProps.value is what i type in 
         //console.log("🚀 ~ file: Dropdown.js ~ line 108 ~ Dropdown ~ params", params.InputProps)
-        setTestInput(params.inputProps.value)
+          props.setTestInput(params.inputProps.value)
         return <TextField {...params} label="field" />
          
     }}

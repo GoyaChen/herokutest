@@ -111,7 +111,8 @@ function Filter(props) {
     }}
   >
 
-      <Dropdown data={props.data} setData={props.setData}/>
+      <Dropdown data={props.data} setData={props.setData} name={name} setName={setName} textInput={textInput} setTestInput={setTestInput} dropdownOptions={dropdownOptions}
+                setDropdownOptions={setDropdownOptions} value={value} setValue={setValue} label={label} object={object}/>
  
     </AppContext.Provider>
   );
